@@ -2,7 +2,7 @@ import psycopg2
 import os
 from werkzeug.security import generate_password_hash
 
-DATABASE_URL = 'postgresql://postgres:1234567890@localhost:5432/TankBattleWeb'
+DATABASE_URL = 'postgresql://postgres:Man6250173849@db.zaapkxtmbyogafejcsay.supabase.co:5432/postgres'
 
 def init_database():
     conn = psycopg2.connect(DATABASE_URL)
