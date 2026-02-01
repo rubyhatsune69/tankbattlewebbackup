@@ -2,7 +2,7 @@ import psycopg2
 import os
 import sys
 
-DATABASE_URL = 'postgresql://postgres:1234567890@localhost:5432/TankBattleWeb'
+DATABASE_URL = 'postgresql://postgres:Man6250173849@db.zaapkxtmbyogafejcsay.supabase.co:5432/postgres'
 
 def promote_user_to_admin(username):
     conn = psycopg2.connect(DATABASE_URL)
