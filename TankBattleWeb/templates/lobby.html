@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Landship - Lobby</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🛡️ TANK LANDSHIP</div>
+        <div class="nav-links">
+            <span>Welcome, {{ username }}!</span>
+            <a href="{{ url_for('instructions') }}">How to Play</a>
+            <a href="{{ url_for('account') }}">My Account</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="lobby-container">
+        <h1>Game Lobby</h1>
+        <div class="mode-selection">
+            <div class="mode-card">
+                <h2>⚔️ Two Player Local Mode</h2>
+                <p>Challenge a friend in head-to-head local tank warfare match</p>
+                <button onclick="startGame('2player')" class="btn btn-primary">Start 2 Player Game</button>
+            </div>
+            
+            <div class="mode-card">
+                <h2>🤖 vs AI - Normal</h2>
+                <p>Face an AI commander with basic strategy</p>
+                <button onclick="startGame('ai-normal')" class="btn btn-success">Play vs AI (Normal)</button>
+            </div>
+            
+            <div class="mode-card">
+                <h2>🤖 vs AI - Hard</h2>
+                <p>Battle against an experienced AI general</p>
+                <button onclick="startGame('ai-hard')" class="btn btn-warning">Play vs AI (Hard)</button>
+            </div>
+            
+            <div class="mode-card">
+                <h2>🤖 vs AI - Nightmare</h2>
+                <p>Face the ultimate tactical AI challenge</p>
+                <button onclick="startGame('ai-nightmare')" class="btn btn-danger">Play vs AI (Nightmare)</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startGame(mode) {
+            window.location.href = `/game/${mode}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Landship - Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🛡️ TANK LANDSHIP - ADMIN</div>
+        <div class="nav-links">
+            <a href="{{ url_for('lobby') }}">Back to Lobby</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <h1>Admin Panel</h1>
+        
+        <div class="admin-actions">
+            <button onclick="clearHistory()" class="btn btn-danger">Clear All Game History</button>
+        </div>
+
+        <div class="users-section">
+            <h2>User Management</h2>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Created</th>
+                        <th>Admin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+                        <td>
+                            {% if not user.is_admin %}
+                                <button onclick="showUserStats('{{ user.id }}', '{{ user.username }}')" class="btn btn-small btn-primary btn-admin-action">Info</button>
+                                <button onclick="clearUserHistory('{{ user.id }}', '{{ user.username }}')" class="btn btn-small btn-warning btn-admin-action">Clear History</button>
+                                <button onclick="deleteUser('{{ user.id }}', '{{ user.username }}')" class="btn btn-small btn-danger btn-admin-action">Delete</button>
+                            {% else %}
+                                <span class="admin-badge">Admin</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function deleteUser(userId, username) {
+            if (!confirm(`Are you sure you want to delete user "${username}"?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/admin/delete_user/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('User deleted successfully');
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('An error occurred');
+            }
+        }
+
+        async function clearHistory() {
+            if (!confirm('Are you sure you want to clear ALL game history? This cannot be undone!')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/admin/clear_history', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Game history cleared successfully');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('An error occurred');
+            }
+        }
+
+        async function clearUserHistory(userId, username) {
+            if (!confirm(`Are you sure you want to clear game history for user "${username}"? This cannot be undone!`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/admin/clear_user_history/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`Game history for user "${username}" cleared successfully`);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('An error occurred');
+            }
+        }
+
+        async function showUserStats(userId, username) {
+            try {
+                const response = await fetch(`/admin/user_stats/${userId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.stats;
+                    const user = data.user;
+                    const recentGames = data.recent_games;
+                    
+                    let message = `Player Statistics for ${user.username}\n`;
+                    message += `Email: ${user.email}\n\n`;
+                    message += `Battle Statistics:\n`;
+                    message += `Total Battles: ${stats.total_games || 0}\n`;
+                    message += `Victories: ${stats.wins || 0}\n`;
+                    message += `Defeats: ${stats.losses || 0}\n`;
+                    
+                    const aiGames = (stats.wins || 0) + (stats.losses || 0);
+                    const winRate = aiGames > 0 ? ((stats.wins / aiGames) * 100).toFixed(1) : 0;
+                    message += `Win Rate: ${winRate}%\n\n`;
+                    
+                    if (recentGames.length > 0) {
+                        message += `Recent Battles (last 5):\n`;
+                        recentGames.forEach(game => {
+                            message += `${game.date} - ${game.mode} - ${game.result}\n`;
+                        });
+                    } else {
+                        message += `No battle history.\n`;
+                    }
+                    
+                    alert(message);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            } catch (error) {
+                alert('An error occurred while fetching user statistics');
+            }
+        }
+    </script>
+</body>
+</html>

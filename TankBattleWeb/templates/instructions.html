@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Landship - How to Play</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .instructions-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .instructions-container h1 {
+            color: #2a5298;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .instruction-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 5px solid #2a5298;
+            border-radius: 5px;
+        }
+
+        .instruction-section h2 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .instruction-section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .instruction-section ul {
+            margin-left: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .instruction-section li {
+            margin-bottom: 10px;
+        }
+
+        .game-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .mode-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #2a5298;
+        }
+
+        .mode-info h3 {
+            color: #2a5298;
+            margin-bottom: 10px;
+        }
+
+        .mode-info p {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .back-btn {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-btn a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #2a5298;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn a:hover {
+            background-color: #1e3a5f;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🛡️ TANK LANDSHIP</div>
+        <div class="nav-links">
+            <span>Welcome, {{ username }}!</span>
+            <a href="{{ url_for('account') }}">My Account</a>
+            <a href="{{ url_for('lobby') }}">Back to Lobby</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+
+    <div class="instructions-container">
+        <h1>🎮 How to Play Tank Landship</h1>
+
+        <div class="instruction-section">
+            <h2>📋 Game Overview</h2>
+            <p>Tank Landship is a strategic turn-based battle game where you command a fleet of tanks against an opponent. The objective is to destroy the enemy's command tank while protecting your own.</p>
+        </div>
+
+        <div class="instruction-section">
+            <h2>🎯 Game Phases</h2>
+            <h3 style="color: #555; font-size: 1.1em; margin: 15px 0;">1. Nation Selection</h3>
+            <p>Choose your nation, which affects the appearance and symbol of your tanks:</p>
+            <ul>
+                <li><strong>United States (★)</strong> - Versatile and powerful armored forces</li>
+                <li><strong>Germany (✠)</strong> - Superior engineering and firepower</li>
+                <li><strong>Soviet Union (☭)</strong> - Mass production and rugged reliability</li>
+                <li><strong>Britain (♔)</strong> - Traditional excellence in armor</li>
+                <li><strong>Japan (◉)</strong> - Agile and tactical tank warfare</li>
+            </ul>
+
+            <h3 style="color: #555; font-size: 1.1em; margin: 15px 0;">2. Tank Placement</h3>
+            <p>Deploy your tanks on a 20x20 grid. You must place:</p>
+            <ul>
+                <li><strong>4 Light Tanks</strong> (2 squares each)</li>
+                <li><strong>2 Medium Tanks</strong> (3 squares each)</li>
+                <li><strong>1 Heavy Tank</strong> (4 squares)</li>
+                <li><strong>2 Tank Destroyers</strong> (2 squares each)</li>
+                <li><strong>1 Command Tank</strong> (3 squares) - Destroying this wins the game</li>
+            </ul>
+            <p>Use the <strong>Rotate</strong> button (R key) to switch tank orientation between horizontal and vertical. Click <strong>Random Placement</strong> to auto-deploy tanks.</p>
+
+            <h3 style="color: #555; font-size: 1.1em; margin: 15px 0;">3. Battle Phase</h3>
+            <p>Take turns firing at opponent's board:</p>
+            <ul>
+                <li>Click a cell on the enemy board to fire</li>
+                <li><strong>Hit:</strong> You continue firing until you miss</li>
+                <li><strong>Miss:</strong> Turn passes to opponent</li>
+                <li>Track your hits (red) and misses (gray) on the board</li>
+            </ul>
+        </div>
+
+        <div class="instruction-section">
+            <h2>⚙️ Game Modes</h2>
+            <div class="game-modes">
+                <div class="mode-info">
+                    <h3>Two Player Local</h3>
+                    <p>Play against a friend on the same device. The opponent's board is hidden until it's their turn.</p>
+                </div>
+                <div class="mode-info">
+                    <h3>AI Normal</h3>
+                    <p>Face an AI with basic strategy. Good for beginners learning the game.</p>
+                </div>
+                <div class="mode-info">
+                    <h3>AI Hard</h3>
+                    <p>Battle an experienced AI that uses tactical targeting and follow-up strategies.</p>
+                </div>
+                <div class="mode-info">
+                    <h3>AI Nightmare</h3>
+                    <p>Ultimate challenge against an AI with advanced prediction and strategic patterns.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="instruction-section">
+            <h2>💡 Strategy Tips</h2>
+            <ul>
+                <li><strong>Spacing:</strong> Spread your tanks out to avoid losing multiple units to a single hit</li>
+                <li><strong>Protect the Command Tank:</strong> This is your weakest point - position it carefully</li>
+                <li><strong>Search Pattern:</strong> When fighting AI, use a systematic search pattern to find enemy tanks</li>
+                <li><strong>Chain Attacks:</strong> If you hit a target, continue attacking nearby cells to destroy it</li>
+                <li><strong>Opponent Behavior:</strong> Watch the AI's targeting pattern to predict its strategy</li>
+            </ul>
+        </div>
+
+        <div class="instruction-section">
+            <h2>📊 Battle Statistics</h2>
+            <p>Visit <strong>My Account</strong> to track your performance:</p>
+            <ul>
+                <li><strong>Total Battles:</strong> All games played (AI and 2-player)</li>
+                <li><strong>Victories:</strong> Wins against AI opponents only</li>
+                <li><strong>Defeats:</strong> Losses against AI opponents only</li>
+                <li><strong>Win Rate:</strong> Your percentage of victories against AI</li>
+                <li><strong>Recent Battles:</strong> View your last 10 games with results and nations used</li>
+            </ul>
+        </div>
+
+        <div class="instruction-section">
+            <h2>🎮 Controls</h2>
+            <ul>
+                <li><strong>Click</strong> on a cell to place a tank (placement phase) or fire (battle phase)</li>
+                <li><strong>R Key:</strong> Rotate tank orientation in placement phase</li>
+                <li><strong>Random Placement Button:</strong> Auto-deploy all tanks randomly</li>
+                <li><strong>Clear Button:</strong> Remove all placed tanks and start over</li>
+            </ul>
+        </div>
+
+        <div class="back-btn">
+            <a href="{{ url_for('lobby') }}">← Back to Lobby</a>
+        </div>
+    </div>
+</body>
+</html>

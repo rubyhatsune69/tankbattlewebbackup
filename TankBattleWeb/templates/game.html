@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Battleship - Battle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🛡️ TANK BATTLESHIP</div>
+        <div class="nav-links">
+            <span id="player-name">{{ username }}</span>
+            <a href="{{ url_for('lobby') }}">Exit to Lobby</a>
+        </div>
+    </nav>
+
+    <div class="game-container">
+
+        <!-- Nation Selection -->
+        <div id="nation-selection" class="nation-selection">
+            <h2>Select Your Nation</h2>
+            <div class="nations-grid">
+                <div class="nation-card" onclick="selectNation('US')">
+                    <div class="nation-flag us-flag">★</div>
+                    <h3>United States</h3>
+                    <p>Versatile and powerful armored forces</p>
+                </div>
+                <div class="nation-card" onclick="selectNation('German')">
+                    <div class="nation-flag german-flag">✠</div>
+                    <h3>Germany</h3>
+                    <p>Superior engineering and firepower</p>
+                </div>
+                <div class="nation-card" onclick="selectNation('USSR')">
+                    <div class="nation-flag ussr-flag">☭</div>
+                    <h3>Soviet Union</h3>
+                    <p>Mass production and rugged reliability</p>
+                </div>
+                <div class="nation-card" onclick="selectNation('Britain')">
+                    <div class="nation-flag britain-flag">♔</div>
+                    <h3>Britain</h3>
+                    <p>Traditional excellence in armor</p>
+                </div>
+                <div class="nation-card" onclick="selectNation('Japan')">
+                    <div class="nation-flag japan-flag">◉</div>
+                    <h3>Japan</h3>
+                    <p>Agile and tactical tank warfare</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Placement Phase -->
+        <div id="placement-phase" class="placement-phase" style="display: none;">
+            <h2 id="placement-title">Place Your Tanks</h2>
+            <div class="placement-controls">
+                <div class="unit-selection">
+                    <h3>Available Units:</h3>
+                    <div id="units-list"></div>
+                </div>
+                <div class="placement-options">
+                    <button id="rotate-btn" class="btn btn-secondary">Rotate (R)</button>
+                    <button id="random-btn" class="btn btn-secondary">Random Placement</button>
+                    <button id="clear-btn" class="btn btn-warning">Clear Board</button>
+                    <button id="ready-btn" class="btn btn-success" disabled>Ready!</button>
+                </div>
+            </div>
+            <div class="board-container">
+                <div id="placement-board" class="game-board"></div>
+            </div>
+        </div>
+
+        <!-- Battle Phase -->
+        <div id="battle-phase" class="battle-phase" style="display: none;">
+            <div class="battle-info">
+                <h2 id="turn-indicator">Your Turn</h2>
+                <div class="game-status">
+                    <div class="player-info">
+                        <h3 id="player1-name">You</h3>
+                        <p id="player1-nation"></p>
+                        <div id="player1-units" class="unit-status"></div>
+                    </div>
+                    <div class="vs-divider">VS</div>
+                    <div class="player-info">
+                        <h3 id="player2-name">Opponent</h3>
+                        <p id="player2-nation"></p>
+                        <div id="player2-units" class="unit-status"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="boards-container" id="battle-boards">
+                <div class="board-wrapper">
+                    <h3>Your Land</h3>
+                    <div id="player-board" class="game-board"></div>
+                </div>
+                <div class="board-wrapper">
+                    <h3>Enemy Land</h3>
+                    <div id="enemy-board" class="game-board"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over -->
+        <div id="game-over" class="game-over" style="display: none;">
+            <div class="game-over-content">
+                <h2 id="game-over-title">Victory!</h2>
+                <p id="game-over-message"></p>
+                <button onclick="window.location.href='{{ url_for('lobby') }}'" class="btn btn-primary">Return to Lobby</button>
+                <button onclick="location.reload()" class="btn btn-secondary">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Variables -->
+    <script>
+        const gameMode = '{{ mode }}';
+        const username = '{{ username }}';
+    </script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
