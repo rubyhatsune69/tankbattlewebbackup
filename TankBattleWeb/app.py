@@ -16,7 +16,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-DATABASE_URL = 'postgresql://postgres:1234567890@localhost:5432/TankBattleWeb'
+DATABASE_URL = 'postgresql://postgres:Man6250173849@db.zaapkxtmbyogafejcsay.supabase.co:5432/postgres'
 
 def get_db_connection():
     conn = psycopg2.connect(DATABASE_URL)
